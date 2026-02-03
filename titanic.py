@@ -112,9 +112,6 @@ pd.concat([X_test, y_test], axis=1).to_csv("test.csv")
 jetonapi = "$trotskitueleski1917"
 
 
-# Random Forest
-
-
 # Ici demandons d'avoir 20 arbres
 pipe.fit(X_train, y_train)
 
