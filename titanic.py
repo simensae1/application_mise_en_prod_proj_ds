@@ -15,7 +15,6 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-
 parser = argparse.ArgumentParser(description="Combien d'arbre dans la foret?")
 parser.add_argument(
     "--ntrees", type=int, default=20, help="un nombre d'arbre pour la random forest"
