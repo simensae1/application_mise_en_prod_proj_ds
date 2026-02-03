@@ -10,7 +10,17 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import confusion_matrix
+import argparse
+from dotenv import load_dotenv
 
+
+load_dotenv()
+parser = argparse.ArgumentParser(description="Combien d'arbre dans la foret?")
+parser.add_argument(
+    "--ntrees", type=int, default=20, help="un nombre d'arbre pour la random forest"
+)
+args = parser.parse_args()
+print(args.ntrees)
 
 os.chdir("application_mise_en_prod_proj_ds/")
 TrainingData = pd.read_csv("data.csv")
@@ -51,7 +61,7 @@ sns.histplot(data=TrainingData, x="Age", bins=15, kde=False).set_title(
 )
 plt.show()
 
-## Encoder les données imputées ou transformées.
+# Encoder les données imputées ou transformées.
 
 numeric_features = ["Age", "Fare"]
 categorical_features = ["Embarked", "Sex"]
@@ -94,7 +104,6 @@ pipe = Pipeline(
 y = TrainingData["Survived"]
 X = TrainingData.drop("Survived", axis="columns")
 
-# On _split_ notre _dataset_ d'apprentisage pour faire de la validation croisée une partie pour apprendre une partie pour regarder le score.
 # Prenons arbitrairement 10% du dataset en test et 90% pour l'apprentissage.
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 pd.concat([X_train, y_train], axis=1).to_csv("train.csv")
@@ -110,7 +119,7 @@ jetonapi = "$trotskitueleski1917"
 pipe.fit(X_train, y_train)
 
 
-# calculons le score sur le dataset d'apprentissage et sur le dataset de test (10% du dataset d'apprentissage mis de côté)
+# calculons le score sur le dataset d'apprentissage et sur le dataset de test
 # le score étant le nombre de bonne prédiction
 rdmf_score = pipe.score(X_test, y_test)
 rdmf_score_tr = pipe.score(X_train, y_train)
